@@ -1,0 +1,64 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/izum_color">
+
+        <ImageView
+            android:layout_width="36dp"
+            android:background="@drawable/shape_find_image"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/search"/>
+
+        <EditText
+            android:id="@+id/editFind"
+            android:background="@drawable/shape_find_edit"
+            android:hint="Искать тут..."
+            android:textColorHint="@color/hint_color"
+            android:layout_weight="1"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
+
+    </LinearLayout>
+
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/fDrawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- The main content view -->
+
+        <RelativeLayout
+            android:id="@+id/find_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Сюда динамично добавляется GridView и всплывающая кнопка -->
+
+        </RelativeLayout>
+
+        <!-- The navigation drawer -->
+        <ListView
+            android:id="@+id/find_menu"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:choiceMode="singleChoice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"/>
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="izum_color">#3d8ada</color>
+    <color name="izum_color_press">#519dec</color>
+    <color name="hint_color">#c4c4c6</color>
+    <color name="white">#FFFFFF</color>
+</resources>
