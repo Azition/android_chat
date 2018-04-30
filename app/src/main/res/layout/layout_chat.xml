@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.astuetz.PagerSlidingTabStrip
+    <com.ogaclejapan.smarttablayout.SmartTabLayout
         android:id="@+id/pagerTab_chat"
         android:layout_width="match_parent"
         android:layout_height="24dp"
-        custom:pstsTextAllCaps="false"
-        custom:pstsIndicatorColor="@color/white"
-        custom:pstsUnderlineColor="@color/white"
-        custom:pstsUnderlineHeight="1dp"
-        custom:pstsIndicatorHeight="4dp"
-        custom:pstsShouldExpand="true"/>
+        app:stl_indicatorAlwaysInCenter="true"
+        app:stl_indicatorInterpolation="linear"
+        app:stl_indicatorColor="#40C4FF"
+        app:stl_indicatorThickness="0dp"
+        app:stl_indicatorCornerRadius="2dp"
+        app:stl_overlineColor="#4D000000"
+        app:stl_overlineThickness="0dp"
+        app:stl_underlineColor="#4D000000"
+        app:stl_underlineThickness="1dp"
+        app:stl_dividerColor="#4D000000"
+        app:stl_dividerThickness="1dp"
+        app:stl_defaultTabBackground="@drawable/selected_item_background"
+        app:stl_defaultTabTextAllCaps="false"
+        app:stl_defaultTabTextColor="#FCFFFFFF"
+        app:stl_defaultTabTextSize="14sp"
+        app:stl_defaultTabTextHorizontalPadding="50dp"
+        app:stl_clickable="true"
+        />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager_chat"

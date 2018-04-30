@@ -2,9 +2,11 @@ package com.addapp.izum.CustomViewComponents;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -40,8 +42,9 @@ public class NestedListView extends ListView implements View.OnTouchListener, Ab
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if(getAdapter() != null && getAdapter().getCount() > MAXIMUM_LIST_ITEMS_VIEWABLE){
+            listViewTouchAction = motionEvent.getAction();
             if (listViewTouchAction == MotionEvent.ACTION_MOVE){
-                scrollBy(0, -1);
+                scrollBy(0, 1);
             }
         }
         return false;
@@ -57,7 +60,7 @@ public class NestedListView extends ListView implements View.OnTouchListener, Ab
         if(heightMode != MeasureSpec.EXACTLY){
             ListAdapter listAdapter = getAdapter();
             if(listAdapter != null && !listAdapter.isEmpty()){
-                int listPosition = 0;
+                int listPosition;
                 for(listPosition = 0; listPosition < listAdapter.getCount()
                         && listPosition < MAXIMUM_LIST_ITEMS_VIEWABLE; listPosition++){
                     View listItem = listAdapter.getView(listPosition, null, this);

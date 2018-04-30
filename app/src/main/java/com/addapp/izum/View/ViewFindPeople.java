@@ -4,15 +4,14 @@ import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
-import com.addapp.izum.OtherClasses.Configurations;
 import com.addapp.izum.R;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshGridView;
 import com.shamanland.fab.FloatingActionButton;
 import com.shamanland.fab.ShowHideOnScroll;
 
@@ -27,15 +26,14 @@ public class ViewFindPeople {
     private ArrayAdapter<String> adapter;       // адаптер вывода параметров поиска
 
     private RelativeLayout.LayoutParams params;
+    private PullToRefreshGridView toRefreshGridView;
 
     private DrawerLayout fDrawerLayout;         // слой вслывающего со всплывающим меню
     private ListView fDrawerList;               // меню - список параметров
-    private ImageView imageParamFind;           // кнопка - изображение вызова всплывающего меню
     private FloatingActionButton fab;           // второй вариант кнопки всплывающего меню
 
     private String[] findItemList = {"Поиск", "Пол", "Возраст", "Интересы"};    // временный массив
 
-    private Configurations config;              // класс конфигурации
 
     public ViewFindPeople(View view){
         this.view = view;
@@ -48,7 +46,6 @@ public class ViewFindPeople {
     */
 
     private void init() {
-        config = new Configurations(view.getContext());
 
         findContent = (RelativeLayout)view.findViewById(R.id.find_content);
 
@@ -58,9 +55,9 @@ public class ViewFindPeople {
 
         adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, findItemList);
 
-        imageParamFind = new ImageView(view.getContext());
+        toRefreshGridView = new PullToRefreshGridView(getContext());
 
-        gridFindContext = new GridView(view.getContext());
+        gridFindContext = toRefreshGridView.getRefreshableView();
 
         fab = new FloatingActionButton(view.getContext());
 
@@ -72,7 +69,7 @@ public class ViewFindPeople {
 //        fDrawerLayout.setScrimColor(Color.TRANSPARENT);
 
         fDrawerList.setAdapter(adapter);
-        fDrawerList.setBackgroundResource(config.getIzumColor());
+        fDrawerList.setBackgroundResource(R.color.izum_color);
 
         /*
         *   Вывод изображения иконки через Picasso
@@ -104,8 +101,8 @@ public class ViewFindPeople {
             Установка параметров таблицы поиска
         */
 
-        gridFindContext.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
+//        gridFindContext.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                ViewGroup.LayoutParams.MATCH_PARENT));
         gridFindContext.setVerticalSpacing(0);
         gridFindContext.setHorizontalSpacing(0);
 
@@ -113,7 +110,12 @@ public class ViewFindPeople {
         gridFindContext.setNumColumns(3);
         gridFindContext.setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
 
-        findContent.addView(gridFindContext);
+        toRefreshGridView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        toRefreshGridView.setScrollingWhileRefreshingEnabled(true);
+        toRefreshGridView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+
+        findContent.addView(toRefreshGridView);
         findContent.addView(fab);
 
     }
@@ -128,17 +130,17 @@ public class ViewFindPeople {
         return this.view;
     }
 
-    public ImageView getImageParamFind(){
-        return this.imageParamFind;
-    }
-
     public DrawerLayout getDrawerLayout(){
         return this.fDrawerLayout;
     }
 
-    public GridView getListFindContext(){ return this.gridFindContext; }
+    public GridView getGridFindContext(){ return this.gridFindContext; }
 
     public FloatingActionButton getButtonParamFind(){ return this.fab; }
+
+    public PullToRefreshGridView getToRefreshGridView() {
+        return toRefreshGridView;
+    }
 
     /*   **********  Setters  **********  */
 }

@@ -1,54 +1,50 @@
 package com.addapp.izum.Adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.renderscript.Allocation;
-import android.renderscript.RenderScript;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.graphics.Color;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.addapp.izum.OtherClasses.Configurations;
-import com.addapp.izum.OtherClasses.FastBlur;
+import com.addapp.izum.CustomViewComponents.ImageOnlineIndication;
+import com.addapp.izum.Model.ModelFindPeople;
+import com.addapp.izum.OtherClasses.MainUserData;
+import com.addapp.izum.OtherClasses.PicassoRound2Transformation;
+import com.addapp.izum.OtherClasses.Utils;
 import com.addapp.izum.R;
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * Created by ILDAR on 01.07.2015.
  */
 public class AdapterFindGridContext extends BaseAdapter {
 
-    private final LayoutInflater mInflater;
-    private Configurations config;
-    private Context context;
-    private boolean[] arrayShow = new boolean[24];
+    private LinearLayout mainLayout;
+    private ViewCell viewCell;
+    private ArrayList<ModelFindPeople.FindListItem> arrayListItem;
+    private int imageSize;
 
     public AdapterFindGridContext(Context context){
-        mInflater = LayoutInflater.from(context);
-
-        this.context = context;
-        config = new Configurations(context);
-        for (int i=0; i<arrayShow.length;i++){
-            arrayShow[i] = true;
-        }
+        arrayListItem = new ArrayList<>();
+        imageSize = MainUserData.percentToPix(30, MainUserData.WIDTH);
     }
 
 
     @Override
     public int getCount() {
-//        return mItems.size();
-        return 24;
+        return arrayListItem.size();
     }
 
     @Override
-    public Item getItem(int position) {
+    public Object getItem(int position) {
         return null;
     }
 
@@ -59,55 +55,114 @@ public class AdapterFindGridContext extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         View v = convertView;
-        final ImageView picture;
-        final TextView name;
+        FindHolder holder = new FindHolder();
+
+        ModelFindPeople.FindListItem item = arrayListItem.get(position);
 
         if(v == null){
-            v = mInflater.inflate(R.layout.item_find_grid, parent, false);
-            v.setTag(R.id.imagePhoto, v.findViewById(R.id.imagePhoto));
-            v.setTag(R.id.text_name, v.findViewById(R.id.text_name));
+            mainLayout = new LinearLayout(parent.getContext());
+            mainLayout.setLayoutParams(
+                    new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+            mainLayout.setOrientation(LinearLayout.VERTICAL);
+
+            viewCell = new ViewCell(parent.getContext(), mainLayout);
+
+            viewCell.getGridCell(holder);
+            v = mainLayout;
+            v.setTag(holder);
+
+        } else {
+            holder = (FindHolder)v.getTag();
         }
 
-        picture = (ImageView)v.getTag(R.id.imagePhoto);
-        name = (TextView)v.getTag(R.id.text_name);
+        String letter;
 
-//        Item item = getItem(position);
+        if (!item.getName().equals("")) {
+            letter = item.getName().substring(0, 1);
+        } else {
+            letter = "";
+        }
 
-        int resId = parent.getResources().getIdentifier("photo_" + (position % 3 + 1), "drawable", parent.getContext().getPackageName());
+        TextDrawable drawable = TextDrawable.builder()
+                .beginConfig()
+                .height(imageSize)
+                .width(imageSize)
+                .bold()
+                .toUpperCase()
+                .endConfig()
+                .buildRect(letter,
+                        Color.parseColor(Utils.generateColorFemale()));
 
-        Picasso.with(parent.getContext())
-                .load(resId)
-                .fit()
-                .centerCrop()
-                .into(picture);
+        if(item.getAvatar().equals("http://im.topufa.org/")){
 
-        name.setTypeface(config.getFont());
-        name.setText("name");
+            Picasso.with(parent.getContext())
+                    .load(R.drawable.pixel)
+                    .resize(imageSize, imageSize)
+                    .centerCrop()
+                    .transform(new PicassoRound2Transformation(drawable))
+                    .placeholder(drawable)
+                    .stableKey("" + item.getId())
+                    .into(holder.userImg);
+
+        } else {
+
+            Picasso.with(parent.getContext())
+                    .load(item.getAvatar())
+                    .resize(imageSize, imageSize)
+                    .centerCrop()
+                    .transform(new PicassoRound2Transformation())
+                    .placeholder(drawable)
+                    .stableKey("" + item.getId())
+                    .into(holder.userImg);
+        }
+
+        holder.userName.setText(item.getName());
 
         return v;
     }
 
-    private void blur(Bitmap bkg, View view) {
-        float radius = 20;
-
-        Bitmap overlay = Bitmap.createBitmap((int) (view.getMeasuredWidth()),
-                (int) (view.getMeasuredHeight()), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(overlay);
-        canvas.translate(-view.getLeft(), -view.getTop());
-        canvas.drawBitmap(bkg, 0, 0, null);
-        overlay = FastBlur.doBlur(overlay, (int) radius, true);
-        view.setBackgroundDrawable(new BitmapDrawable(context.getResources(), overlay));
+    public void setArrayListItem(ArrayList<ModelFindPeople.FindListItem> arrayListItem) {
+        this.arrayListItem = arrayListItem;
+        notifyDataSetChanged();
     }
 
-    private static class Item{
-        public final String name;
-        public final int drawableId;
+    private class FindHolder{
+        public ImageOnlineIndication userImg;
+        public TextView userName;
+    }
 
-        Item(String name, int drawableId){
-            this.name = name;
-            this.drawableId = drawableId;
+    private class ViewCell{
+
+        private Context context;
+        private LinearLayout mainLayout;
+        private LinearLayout.LayoutParams params;
+
+        public ViewCell(Context context, LinearLayout mainLayout) {
+            this.context = context;
+            this.mainLayout = mainLayout;
+        }
+
+        public void getGridCell(FindHolder tempHolder){
+
+            tempHolder.userImg = new ImageOnlineIndication(context);
+            params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            params.topMargin = MainUserData.percentToPix(2, MainUserData.HEIGHT);
+            tempHolder.userImg.setLayoutParams(params);
+            tempHolder.userImg.setOnline(true);
+
+            tempHolder.userName = new TextView(context);
+            params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.gravity = Gravity.CENTER_HORIZONTAL;
+            tempHolder.userName.setLayoutParams(params);
+            tempHolder.userName.setSingleLine(true);
+            tempHolder.userName.setTextSize(TypedValue.COMPLEX_UNIT_PX, MainUserData.setTextSize(16));
+
+            mainLayout.addView(tempHolder.userImg);
+            mainLayout.addView(tempHolder.userName);
         }
     }
 }

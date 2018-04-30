@@ -3,18 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <corners
-        android:bottomLeftRadius="8dp"
-        android:bottomRightRadius="8dp"
-        android:topLeftRadius="8dp"
-        android:topRightRadius="8dp"/>
+        android:radius="8dp"/>
 
     <solid
-        android:color="#88000000"/>
+        android:color="#FFF"/>
 
     <padding
-        android:top="10dp"
-        android:bottom="18dp"
-        android:left="18dp"
-        android:right="18dp"/>
+        android:top="8dp"
+        android:bottom="8dp"
+        android:left="8dp"
+        android:right="8dp"/>
 
 </shape>

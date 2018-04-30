@@ -7,22 +7,19 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.addapp.izum.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import uk.co.senab.photoview.PhotoView;
 
 /**
  * Created by ILDAR on 09.07.2015.
+ * Активити для просмотра фотографии в профиле.
  */
 public class PhotoViewActivity extends Activity {
 
@@ -33,6 +30,9 @@ public class PhotoViewActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+/****************************************************************************************
+        Передача массива с путями фотографии и позции фотографии
+*****************************************************************************************/
         Intent intent = getIntent();
         arrayPhoto = intent.getStringArrayListExtra("arrayPhoto");
         position = intent.getIntExtra("position", 0);
@@ -40,6 +40,10 @@ public class PhotoViewActivity extends Activity {
         viewActivity = new ViewPhotoViewActivity(this, arrayPhoto, position);
         setContentView(viewActivity.getMainView());
     }
+
+/****************************************************************************************
+    Класс для работы и отображения фотографии
+*****************************************************************************************/
 
     private class ViewPhotoViewActivity{
 
@@ -106,7 +110,7 @@ public class PhotoViewActivity extends Activity {
 
                 Picasso.with(context)
                         .load(context.getResources()
-                                .getIdentifier(arrayPhoto.get(position), "drawable", getPackageName()))
+                        .getIdentifier(arrayPhoto.get(position), "drawable", getPackageName()))
                         .fit()
                         .centerInside()
                         .into(photoView);

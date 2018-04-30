@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Izum</string>
     <string name="local_service_started">NotificationService</string>
+    <string name="URL_address">http://server.izumchat.ru/index.php</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

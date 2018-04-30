@@ -12,6 +12,7 @@ public class JSONRequest {
     private String URL;
     private JSONParser jsonParser;
     private JSONObject jsonObj;
+    private boolean complete = false;
 
     public JSONRequest(String URL){
         this.URL = URL;
@@ -30,12 +31,27 @@ public class JSONRequest {
         return jsonObj;
     }
 
-    private class RequestFromURL extends AsyncTask<Void, Void, Void>{
+    public boolean isComplete(){
+        return complete;
+    }
+
+    private void setComplete(boolean complete){
+        this.complete = complete;
+    }
+
+    private class RequestFromURL extends AsyncTask<Void, Void, Boolean>{
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Boolean doInBackground(Void... voids) {
+            setComplete(false);
             jsonObj = jsonParser.getJSONFromUrl(URL);
-            return null;
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            setComplete(aBoolean);
         }
     }
 }

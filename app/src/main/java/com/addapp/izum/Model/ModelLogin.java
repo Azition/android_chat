@@ -1,25 +1,26 @@
 package com.addapp.izum.Model;
 
+import com.addapp.izum.AbstractClasses.CommonModel;
+import com.addapp.izum.Interface.OnModelUpdate;
+import com.addapp.izum.OtherClasses.SocketIO;
+
 /**
  * Created by ILDAR on 16.06.2015.
  */
-public class ModelLogin {
+public class ModelLogin extends CommonModel implements OnModelUpdate {
 
-    private String name;
+    private SocketIO mSocket = SocketIO.getInstance();
 
-    public ModelLogin(){
-        this.name = "";
+    public ModelLogin() {
+        mSocket.addModel(SocketIO.Model.LOGIN, this);
     }
 
-    public ModelLogin(String name){
-        this.name = name;
+    public void sendAuthData(String number, String pass){
+        mSocket.sendAuthData(number, pass);
     }
 
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public String getName(){
-        return this.name;
+    @Override
+    public void onListen(Object obj) {
+        getListener().onUpdate();
     }
 }

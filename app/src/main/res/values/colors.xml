@@ -2,6 +2,8 @@
 <resources>
     <color name="izum_color">#3d8ada</color>
     <color name="izum_color_press">#519dec</color>
+    <color name="izum_color_unstate">#3c80c9</color>
     <color name="hint_color">#c4c4c6</color>
+    <color name="item_press">#DBDBDD</color>
     <color name="white">#FFFFFF</color>
 </resources>

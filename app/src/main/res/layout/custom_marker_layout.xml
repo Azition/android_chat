@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100sp"
+    android:layout_height="100sp">
+
+    <ImageView
+        android:id="@+id/imgMarker"
+        android:layout_width="100sp"
+        android:layout_height="100sp"
+        android:src="@drawable/bg_geo_user_photo"/>
+
+    <ImageView
+        android:id="@+id/userImg"
+        android:src="@drawable/nophoto"
+        android:layout_width="68sp"
+        android:layout_height="68sp" />
+
+</RelativeLayout >

@@ -9,6 +9,11 @@ import android.widget.LinearLayout;
  * Created by ILDAR on 02.07.2015.
  */
 public class CustomLinearLayout extends LinearLayout {
+
+    private int viewHeight;
+    private int viewWidth;
+
+
     public CustomLinearLayout(Context context) {
         super(context);
     }

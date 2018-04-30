@@ -48,7 +48,7 @@ public class JSONParser extends Application {
         try {
 
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
-            Log.e("nameValuePairs", nameValuePairs.toString());
+            Log.e("JSONParser: nameValuePairs", nameValuePairs.toString());
             // Выполним запрос
             response = httpclient.execute(httppost);
 
@@ -74,7 +74,7 @@ public class JSONParser extends Application {
                 }
             }
             // return JSON
-            Log.e("nameValuePairsResponse", jsonObject.toString());
+            Log.e("JSONParser: nameValuePairsResponse", jsonObject.toString());
             return jsonObject;
         }catch (NullPointerException e)
         {

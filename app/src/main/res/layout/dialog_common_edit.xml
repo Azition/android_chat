@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/shape_status_edit"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/status_title"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/status_edit"
+        android:background="@drawable/shape_common_edittext"
+        android:textColorHint="@color/hint_color"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:inputType="textCapSentences"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#E9E9E9"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="*"
+        android:background="@drawable/shape_status_edit_bottom"
+        >
+        <TableRow>
+            <TextView
+                android:id="@+id/no_button"
+                android:padding="10dp"
+                android:layout_width="1dp"
+                android:layout_marginRight="1dp"
+                android:gravity="center"
+                android:background="@drawable/shape_status_edit_left_button"
+                android:text="Отмена"/>
+            <TextView
+                android:id="@+id/yes_button"
+                android:padding="10dp"
+                android:layout_width="1dp"
+                android:layout_marginLeft="1dp"
+                android:gravity="center"
+                android:background="@drawable/shape_status_edit_right_button"
+                android:text="Сохранить"/>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>
